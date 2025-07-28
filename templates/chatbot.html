@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRf17qqrgVGO2f0Ref91yaQ6WIB5GAt9Tt3g&s");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .chatbox {
+            flex: 2;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-right: 20px;
+            position: relative;
+        }
+
+        .msg {
+            margin: 10px 0;
+        }
+
+        .user {
+            text-align: right;
+            color: #007bff;
+        }
+
+        .bot {
+            text-align: left;
+            color: #333;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            width: 75%;
+            padding: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .send-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .send-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .clear-btn {
+            background-color: #f44336;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .clear-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .logout {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-decoration: none;
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        /* Minimized Suggestions Panel */
+        .suggestions {
+            flex: 0.7;
+            margin-left: 10px;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0,0,0,0.12);
+            font-size: 13px;
+            max-width: 220px;
+            height: fit-content;
+        }
+
+        .suggestions h3 {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .suggestions ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .suggestions li {
+            margin-bottom: 8px;
+            cursor: pointer;
+            background-color: #f8f8f8;
+            padding: 6px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            font-size: 13px;
+        }
+
+        .suggestions li:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+
+    <script>
+        function fillQuery(text) {
+            document.querySelector('input[name="query"]').value = text;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="chatbox">
+            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+            <h2>Loan Assistant Chatbot</h2>
+
+            <div id="chat-history">
+                {% for chat in chat_history %}
+                    <div class="msg user"><strong>You:</strong> {{ chat.user }}</div>
+                    <div class="msg bot"><strong>Bot:</strong> {{ chat.bot }}</div>
+                {% endfor %}
+            </div>
+
+            {% if error %}
+                <div class="error">{{ error }}</div>
+            {% endif %}
+
+            <form method="POST">
+                <div class="form-row">
+                    <input type="text" name="query" placeholder="Ask a question..." value="{{ query or '' }}" autocomplete="off" required>
+                    <button type="submit" name="action" value="send" class="send-btn">Send</button>
+                    <button type="submit" name="action" value="clear" class="clear-btn">Clear Chat</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="suggestions">
+            <h3>Suggested Questions</h3>
+            <ul>
+                <li onclick="fillQuery('What is the average loan amount?')">What is the average loan amount?</li>
+<li onclick="fillQuery('What is the maximum loan amount I can get?')">What is the maximum loan amount I can get?</li>
+<li onclick="fillQuery('What is the minimum loan amount?')">What is the minimum loan amount?</li>
+<li onclick="fillQuery('What is the loan approval rate?')">What is the loan approval rate?</li>
+<li onclick="fillQuery('How many loans are in the dataset?')">How many loans are in the dataset?</li>
+<li onclick="fillQuery('What are the education-wise loan counts?')">What are the education-wise loan counts?</li>
+<li onclick="fillQuery('How many married applicants are there?')">How many married applicants are there?</li>
+<li onclick="fillQuery('How many self-employed applicants are there?')">How many self-employed applicants are there?</li>
+<li onclick="fillQuery('Can I apply for a loan online?')">Can I apply for a loan online?</li>
+<li onclick="fillQuery('What documents are required for loan approval?')">What documents are required for loan approval?</li>
+<li onclick="fillQuery('What if I am unemployed?')">What if I am unemployed?</li>
+<li onclick="fillQuery('How long does loan approval take?')">How long does loan approval take?</li>
+<li onclick="fillQuery('What is the current interest rate?')">What is the current interest rate?</li>
+<li onclick="fillQuery('Is a co-applicant necessary?')">Is a co-applicant necessary?</li>
+<li onclick="fillQuery('What is EMI?')">What is EMI?</li>
+<li onclick="fillQuery('What is a credit score?')">What is a credit score?</li>
+<li onclick="fillQuery('What if I have poor credit history?')">What if I have poor credit history?</li>
+<li onclick="fillQuery('Can I repay the loan early?')">Can I repay the loan early?</li>
+<li onclick="fillQuery('What is the usual loan duration?')">What is the usual loan duration?</li>
+<li onclick="fillQuery('What is a processing fee?')">What is a processing fee?</li>
+<li onclick="fillQuery('What is collateral?')">What is collateral?</li>
+<li onclick="fillQuery('Is income proof required?')">Is income proof required?</li>
+<li onclick="fillQuery('What is the difference between a personal loan and a home loan?')">What is the difference between a personal loan and a home loan?</li>
+
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
